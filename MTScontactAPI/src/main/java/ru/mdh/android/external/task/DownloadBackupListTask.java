@@ -2,10 +2,11 @@ package ru.mdh.android.external.task;
 
 
 import android.os.AsyncTask;
+import ru.mdh.android.model.BackupItem;
 
 import java.util.List;
 
-public class DownloadBackupListTask extends AsyncTask<Void, Integer, List<DownloadBackupListTask.BackupItem>> {
+public class DownloadBackupListTask extends AsyncTask<Void, Integer, List<BackupItem>> {
 
     public interface ResultListener {
         void onResult(List<BackupItem> backups);
@@ -17,12 +18,18 @@ public class DownloadBackupListTask extends AsyncTask<Void, Integer, List<Downlo
         resultListener = rL;
     }
 
-    public class BackupItem {
 
-    }
-
+    enum errorType {Type1, Type2};
     public class ErrorType {
+        errorType type;
 
+        public errorType getType() {
+            return type;
+        }
+
+        public void setType(errorType type) {
+            this.type = type;
+        }
     }
 
     ErrorType type;
@@ -30,6 +37,9 @@ public class DownloadBackupListTask extends AsyncTask<Void, Integer, List<Downlo
 
     @Override
     protected List<BackupItem> doInBackground(Void... params) {
+
+        //publishProgress(...);
+
         return null;
     }
 
@@ -46,9 +56,13 @@ public class DownloadBackupListTask extends AsyncTask<Void, Integer, List<Downlo
 
         if(true)
             resultListener.onResult(backupItems);
-        else
+        else {
+            if(type.getType() == errorType.Type1)
+                message = "Type1 error happen in DownloadBackupListTask";
+            if(type.getType() == errorType.Type2)
+                message = "Type2 error happen in DownloadBackupListTask";
             resultListener.onError(type, message);
-
+        }
     }
 
 }

@@ -20,8 +20,17 @@ public class ContactsListTask extends AsyncTask<Void, Integer, List<ContactsList
 
     }
 
+    enum errorType {Type1, Type2};
     public class ErrorType {
+        errorType type;
 
+        public errorType getType() {
+            return type;
+        }
+
+        public void setType(errorType type) {
+            this.type = type;
+        }
     }
 
     ErrorType type;
@@ -29,6 +38,9 @@ public class ContactsListTask extends AsyncTask<Void, Integer, List<ContactsList
 
     @Override
     protected List<Contact> doInBackground(Void... params) {
+        
+        //publishProgress(...);
+
         return null;
     }
 
@@ -44,7 +56,12 @@ public class ContactsListTask extends AsyncTask<Void, Integer, List<ContactsList
 
         if(true)
             resultListener.onResult(contacts);
-        else
+        else {
+            if(type.getType() == errorType.Type1)
+                message = "Type1 error happen in ContactsListTask";
+            if(type.getType() == errorType.Type2)
+                message = "Type2 error happen in ContactsListTask";
             resultListener.onError(type, message);
+        }
     }
 }

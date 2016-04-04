@@ -15,8 +15,17 @@ public class DownloadBackupContactsTask extends AsyncTask <Void, Integer, Void> 
         resultListener = rL;
     }
 
+    enum errorType {Type1, Type2};
     public class ErrorType {
+        errorType type;
 
+        public errorType getType() {
+            return type;
+        }
+
+        public void setType(errorType type) {
+            this.type = type;
+        }
     }
 
     ErrorType type;
@@ -24,6 +33,9 @@ public class DownloadBackupContactsTask extends AsyncTask <Void, Integer, Void> 
 
     @Override
     protected Void doInBackground(Void... params) {
+
+        //publishProgress(...);
+
         return null;
     }
 
@@ -33,8 +45,13 @@ public class DownloadBackupContactsTask extends AsyncTask <Void, Integer, Void> 
 
         if(true)
             resultListener.onResult();
-        else
+        else {
+            if(type.getType() == errorType.Type1)
+                message = "Type1 error happen in DownloadBackupContactsTask";
+            if(type.getType() == errorType.Type2)
+                message = "Type2 error happen in DownloadBackupContactsTask";
             resultListener.onError(type, message);
+        }
     }
 
     @Override

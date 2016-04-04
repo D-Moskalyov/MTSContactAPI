@@ -12,8 +12,17 @@ public class ContactsCountTask extends AsyncTask<String, Void, Long> {
     public void setResultListener (ResultListener rL){
         resultListener = rL;
     }
+    enum errorType {Type1, Type2};
     public class ErrorType {
+        errorType type;
 
+        public errorType getType() {
+            return type;
+        }
+
+        public void setType(errorType type) {
+            this.type = type;
+        }
     }
 
     ErrorType type;
@@ -21,16 +30,30 @@ public class ContactsCountTask extends AsyncTask<String, Void, Long> {
 
     @Override
     protected Long doInBackground(String... params) {
-        return null;
+        Long count = null;
+
+        //send request to server
+        //recive response from server
+
+        if(count == null){
+            type.setType(errorType.Type1);//or type.setType(errorType.Type2);
+        }
+
+        return  count;
     }
 
     @Override
-    protected void onPostExecute(Long aLong) {
-        super.onPostExecute(aLong);
+    protected void onPostExecute(Long count) {
+        super.onPostExecute(count);
 
-        if(true)
-            resultListener.onResult(aLong);
-        else
+        if(count != null)
+            resultListener.onResult(count);
+        else {
+            if(type.getType() == errorType.Type1)
+                message = "Type1 error happen in ContactsCountTask";
+            if(type.getType() == errorType.Type2)
+                message = "Type2 error happen in ContactsCountTask";
             resultListener.onError(type, message);
+        }
     }
 }
